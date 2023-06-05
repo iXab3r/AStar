@@ -125,7 +125,7 @@ namespace AStar.Tests
                 {
                     if (splitLevel[row][column] != closedCharacter)
                     {
-                        world[row, column] = short.Parse(splitLevel[row][column].ToString());
+                        world[row, column] = byte.Parse(splitLevel[row][column].ToString());
                     }
                 }
             }

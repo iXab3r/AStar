@@ -30,32 +30,32 @@ namespace AStar.Tests
                 [1, 2] = 6,
             };
 
-            grid[0, 0].ShouldBe((short)1);
-            grid[0, 1].ShouldBe((short)2);
-            grid[0, 2].ShouldBe((short)3);
+            grid[0, 0].ShouldBe((byte)1);
+            grid[0, 1].ShouldBe((byte)2);
+            grid[0, 2].ShouldBe((byte)3);
 
-            grid[1, 0].ShouldBe((short)4);
-            grid[1, 1].ShouldBe((short)5);
-            grid[1, 2].ShouldBe((short)6);
+            grid[1, 0].ShouldBe((byte)4);
+            grid[1, 1].ShouldBe((byte)5);
+            grid[1, 2].ShouldBe((byte)6);
         }
         
         [Test]
         public void ShouldInstantiateWith2DArray()
         {
-            var grid = new WorldGrid(new short[,]
+            var grid = new WorldGrid(new byte[,]
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 },
                 { 7, 8, 9 },
             });
 
-            grid[0, 0].ShouldBe((short)1);
-            grid[0, 1].ShouldBe((short)2);
-            grid[0, 2].ShouldBe((short)3);
+            grid[0, 0].ShouldBe((byte)1);
+            grid[0, 1].ShouldBe((byte)2);
+            grid[0, 2].ShouldBe((byte)3);
 
-            grid[1, 0].ShouldBe((short)4);
-            grid[1, 1].ShouldBe((short)5);
-            grid[1, 2].ShouldBe((short)6);
+            grid[1, 0].ShouldBe((byte)4);
+            grid[1, 1].ShouldBe((byte)5);
+            grid[1, 2].ShouldBe((byte)6);
         }
         
         [Test]
@@ -70,12 +70,12 @@ namespace AStar.Tests
             grid[new Position(1, 1)] = 5;
             grid[new Position(1, 2)] = 6;
             
-            grid[new Point(0, 0)].ShouldBe((short)1);
-            grid[new Point(1, 0)].ShouldBe((short)2);
-            grid[new Point(2, 0)].ShouldBe((short)3);
-            grid[new Point(0, 1)].ShouldBe((short)4);
-            grid[new Point(1, 1)].ShouldBe((short)5);
-            grid[new Point(2, 1)].ShouldBe((short)6);
+            grid[new Point(0, 0)].ShouldBe((byte)1);
+            grid[new Point(1, 0)].ShouldBe((byte)2);
+            grid[new Point(2, 0)].ShouldBe((byte)3);
+            grid[new Point(0, 1)].ShouldBe((byte)4);
+            grid[new Point(1, 1)].ShouldBe((byte)5);
+            grid[new Point(2, 1)].ShouldBe((byte)6);
         }
         
         [Test]

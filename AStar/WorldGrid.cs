@@ -5,7 +5,7 @@ namespace AStar
     /// <summary>
     /// A world grid consisting of integers where a closed cell is represented by 0
     /// </summary>
-    public class WorldGrid : Grid<short>
+    public class WorldGrid : Grid<byte>
     {
         /// <summary>
         /// Creates a new world with the given dimensions initialised to closed
@@ -22,7 +22,7 @@ namespace AStar
         /// e.g [4,2] will have a height of 4 and a width of 2.
         /// </summary>
         /// <param name="worldArray">A 2 dimensional array of short where 0 indicates a closed node</param>
-        public WorldGrid(short[,] worldArray) : base(worldArray.GetLength(0), worldArray.GetLength(1))
+        public WorldGrid(byte[,] worldArray) : base(worldArray.GetLength(0), worldArray.GetLength(1))
         {
             for (var row = 0; row < worldArray.GetLength(0); row++)
             {
