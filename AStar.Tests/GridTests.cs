@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Linq;
+using AStar.Scaffolding;
 using NUnit.Framework;
 using Shouldly;
 
@@ -11,7 +12,7 @@ namespace AStar.Tests
         [Test]
         public void ShouldInstantiateWithCorrectDimensions()
         {
-            var grid = new WorldGrid(12, 10);
+            var grid = new WorldGrid(new Size(10, 12));
 
             grid.Height.ShouldBe(12);
             grid.Width.ShouldBe(10);
@@ -20,7 +21,7 @@ namespace AStar.Tests
         [Test]
         public void ShouldReadAndWriteByIndex()
         {
-            var grid = new WorldGrid(2, 3)
+            var grid = new WorldGrid(new Size(3, 2))
             {
                 [0, 0] = 1,
                 [0, 1] = 2,
@@ -61,7 +62,7 @@ namespace AStar.Tests
         [Test]
         public void ShouldReadAndWriteByPoint()
         {
-            var grid = new WorldGrid(2, 3);
+            var grid = new WorldGrid(new Size(3, 2));
             
             grid[new Position(0, 0)] = 1;
             grid[new Position(0, 1)] = 2;
@@ -81,7 +82,7 @@ namespace AStar.Tests
         [Test]
         public void ShouldGetCardinalSuccessorPositions()
         {
-            var grid = new WorldGrid(3, 3);
+            var grid = new WorldGrid(new Size(3, 3));
 
             var successors = grid
                 .GetSuccessorPositions(new Position(1,1))
@@ -98,7 +99,7 @@ namespace AStar.Tests
         [Test]
         public void ShouldGetCardinalAndDiagonalSuccessorPositions()
         {
-            var grid = new WorldGrid(3, 3);
+            var grid = new WorldGrid(new Size(3, 3));
 
             var successors = grid
                 .GetSuccessorPositions(new Position(1,1), true)
@@ -120,7 +121,7 @@ namespace AStar.Tests
         [Test]
         public void ShouldGetSuccessorsWithoutGoingOutOfBounds()
         {
-            var grid = new WorldGrid(3, 3);
+            var grid = new WorldGrid(new Size(3, 3));
 
             var successors = grid
                 .GetSuccessorPositions(new Position(2,2), true)

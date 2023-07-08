@@ -1,18 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.1</TargetFrameworks>
-    <PackageId>AStarLite</PackageId>
-    <Title>AStar Lite</Title>
-    <Authors>Val Antonini</Authors>
-    <PackageLicenseUrl>https://github.com/valantonini/AStar/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/valantonini/AStar</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/valantonini/AStar</RepositoryUrl>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>A lightweight, 2D A* (A Star) algorithm.</Description>
-    <PackageTags>Pathfinding;A*;AStar;Algorithms</PackageTags>
-    <RootNamespace>AStar</RootNamespace>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.1</TargetFrameworks>
+        <PackageId>AStarLite</PackageId>
+        <Title>AStar Lite</Title>
+        <Authors>Val Antonini</Authors>
+        <PackageLicenseUrl>https://github.com/valantonini/AStar/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/valantonini/AStar</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/valantonini/AStar</RepositoryUrl>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Description>A lightweight, 2D A* (A Star) algorithm.</Description>
+        <PackageTags>Pathfinding;A*;AStar;Algorithms</PackageTags>
+        <RootNamespace>AStar</RootNamespace>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\PoeShared\PoeShared.csproj" />
+    </ItemGroup>
 
 </Project>

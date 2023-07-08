@@ -1,12 +1,11 @@
-namespace AStar.Heuristics
+namespace AStar.Heuristics;
+
+public enum HeuristicFormula
 {
-    public enum HeuristicFormula
-    {
-        Manhattan = 1,
-        MaxDXDY = 2,
-        DiagonalShortCut = 3,
-        Euclidean = 4,
-        EuclideanNoSQR = 5,
-        Custom1 = 6
-    }
+    Manhattan = 1,
+    MaxDxdy = 2,
+    DiagonalShortCut = 3,
+    Euclidean = 4,
+    EuclideanNoSqr = 5,
+    Custom1 = 6
 }

@@ -117,7 +117,7 @@ namespace AStar.Tests
                 .Select(row => row.Trim())
                 .ToList();
             
-            var world = new WorldGrid(splitLevel.Count, splitLevel[0].Length);
+            var world = new WorldGrid(new Size(splitLevel[0].Length, splitLevel.Count));
 
             for (var row = 0; row < splitLevel.Count; row++)
             {

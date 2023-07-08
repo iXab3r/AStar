@@ -1,7 +1,6 @@
-namespace AStar.Heuristics
+namespace AStar.Heuristics;
+
+public interface ICalculateHeuristic
 {
-    public interface ICalculateHeuristic
-    {
-        int Calculate(Position source, Position destination);
-    }
+    int Calculate(Position source, Position destination);
 }

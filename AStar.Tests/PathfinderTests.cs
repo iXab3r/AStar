@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using AStar.Options;
 using NUnit.Framework;
 using Shouldly;
@@ -21,7 +22,7 @@ namespace AStar.Tests
         [Test]
         public void ShouldPathRectangleGrid()
         {
-            var grid = CreateGridInitializedToOpen(3, 5);
+            var grid = CreateGridInitializedToOpen(5, 3);
             var pathfinder = new PathFinder(grid);
 
             var path = pathfinder.FindPath(new Position(0, 0), new Position(2, 4));
@@ -156,7 +157,7 @@ namespace AStar.Tests
 
         private static WorldGrid CreateGridInitializedToOpen(int height, int width)
         {
-            var grid = new WorldGrid(height, width);
+            var grid = new WorldGrid(new Size(height, width));
 
             for (var row = 0; row < grid.Height; row++)
             {

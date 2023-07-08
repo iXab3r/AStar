@@ -1,176 +1,167 @@
 ﻿using System.Collections.Generic;
 
-namespace AStar.Collections.PriorityQueue
+namespace AStar.Collections.PriorityQueue;
+
+internal class SimplePriorityQueue<T> : IModelAPriorityQueue<T>
 {
-    internal class SimplePriorityQueue<T> : IModelAPriorityQueue<T>
+    private readonly IComparer<T> comparer;
+    private readonly List<T> innerList = new();
+
+    public SimplePriorityQueue(IComparer<T> comparer = null)
     {
-        private readonly List<T> _innerList = new List<T>();
-        private readonly IComparer<T> _comparer;
+        this.comparer = comparer ?? Comparer<T>.Default;
+        ;
+    }
 
-        public SimplePriorityQueue(IComparer<T> comparer = null)
+    public T this[int index]
+    {
+        get => innerList[index];
+        set
         {
-            _comparer = comparer ?? Comparer<T>.Default;;
+            innerList[index] = value;
+            Update(index);
         }
+    }
 
-        public T Peek()
+    public T Peek()
+    {
+        return innerList.Count > 0 ? innerList[0] : default;
+    }
+
+    public void Clear()
+    {
+        innerList.Clear();
+    }
+
+    public int Count => innerList.Count;
+
+    public int Push(T item)
+    {
+        var p = innerList.Count;
+        innerList.Add(item); // E[p] = O
+
+        do
         {
-            return _innerList.Count > 0 ? _innerList[0] : default(T);
-        }
-
-        public void Clear()
-        {
-            _innerList.Clear();
-        }
-
-        public int Count
-        {
-            get { return _innerList.Count; }
-        }
-
-        public int Push(T item)
-        {
-            var p = _innerList.Count;
-            _innerList.Add(item); // E[p] = O
-
-            do
+            if (p == 0)
             {
-                if (p == 0)
-                {
-                    break;
-                }
-                
-                var p2 = (p - 1) / 2;
-
-                if (OnCompare(p, p2) < 0)
-                {
-                    SwitchElements(p, p2);
-                    p = p2;
-                }
-                else
-                {
-                    break;
-                }
-
-            } while (true);
-
-            return p;
-        }
-
-        public T Pop()
-        {
-            var result = _innerList[0];
-            var p = 0;
-
-            _innerList[0] = _innerList[_innerList.Count - 1];
-            _innerList.RemoveAt(_innerList.Count - 1);
-
-            do
-            {
-                var pn = p;
-                var p1 = 2 * p + 1;
-                var p2 = 2 * p + 2;
-
-                if (_innerList.Count > p1 && OnCompare(p, p1) > 0)
-                {
-                    p = p1;
-                }
-                if (_innerList.Count > p2 && OnCompare(p, p2) > 0)
-                {
-                    p = p2;
-                }
-
-                if (p == pn)
-                {
-                    break;
-                }
-
-                SwitchElements(p, pn);
-
-            } while (true);
-
-            return result;
-        }
-
-        public T this[int index]
-        {
-            get
-            {
-                return _innerList[index];
-            }
-            set
-            {
-                _innerList[index] = value;
-                Update(index);
-            }
-        }
-
-        private void Update(int i)
-        {
-            var p = i;
-            int p2;
-
-            do	
-            {
-                if (p == 0)
-                {
-                    break;
-                }
-
-                p2 = (p - 1) / 2;
-
-                if (OnCompare(p, p2) < 0)
-                {
-                    SwitchElements(p, p2);
-                    p = p2;
-                }
-                else
-                {
-                    break;
-                }
-
-            } while (true);
-
-            if (p < i)
-            {
-                return;
+                break;
             }
 
-            do
+            var p2 = (p - 1) / 2;
+
+            if (OnCompare(p, p2) < 0)
             {
-                var pn = p;
-                var p1 = 2 * p + 1;
-                p2 = 2 * p + 2;
-                
-                if (_innerList.Count > p1 && OnCompare(p, p1) > 0) 
-                {
-                    p = p1;
-                }
-                
-                if (_innerList.Count > p2 && OnCompare(p, p2) > 0)
-                {
-                    p = p2;
-                }
+                SwitchElements(p, p2);
+                p = p2;
+            }
+            else
+            {
+                break;
+            }
+        } while (true);
 
-                if (p == pn)
-                {
-                    break;
-                }
-                
-                SwitchElements(p, pn);
+        return p;
+    }
 
-            } while (true);
-        }
+    public T Pop()
+    {
+        var result = innerList[0];
+        var p = 0;
 
-        private void SwitchElements(int i, int j)
+        innerList[0] = innerList[innerList.Count - 1];
+        innerList.RemoveAt(innerList.Count - 1);
+
+        do
         {
-            var h = _innerList[i];
-            _innerList[i] = _innerList[j];
-            _innerList[j] = h;
+            var pn = p;
+            var p1 = 2 * p + 1;
+            var p2 = 2 * p + 2;
+
+            if (innerList.Count > p1 && OnCompare(p, p1) > 0)
+            {
+                p = p1;
+            }
+
+            if (innerList.Count > p2 && OnCompare(p, p2) > 0)
+            {
+                p = p2;
+            }
+
+            if (p == pn)
+            {
+                break;
+            }
+
+            SwitchElements(p, pn);
+        } while (true);
+
+        return result;
+    }
+
+    private void Update(int i)
+    {
+        var p = i;
+        int p2;
+
+        do
+        {
+            if (p == 0)
+            {
+                break;
+            }
+
+            p2 = (p - 1) / 2;
+
+            if (OnCompare(p, p2) < 0)
+            {
+                SwitchElements(p, p2);
+                p = p2;
+            }
+            else
+            {
+                break;
+            }
+        } while (true);
+
+        if (p < i)
+        {
+            return;
         }
 
-        private int OnCompare(int i, int j)
+        do
         {
-            return _comparer.Compare(_innerList[i], _innerList[j]);
-        }
+            var pn = p;
+            var p1 = 2 * p + 1;
+            p2 = 2 * p + 2;
+
+            if (innerList.Count > p1 && OnCompare(p, p1) > 0)
+            {
+                p = p1;
+            }
+
+            if (innerList.Count > p2 && OnCompare(p, p2) > 0)
+            {
+                p = p2;
+            }
+
+            if (p == pn)
+            {
+                break;
+            }
+
+            SwitchElements(p, pn);
+        } while (true);
+    }
+
+    private void SwitchElements(int i, int j)
+    {
+        var h = innerList[i];
+        innerList[i] = innerList[j];
+        innerList[j] = h;
+    }
+
+    private int OnCompare(int i, int j)
+    {
+        return comparer.Compare(innerList[i], innerList[j]);
     }
 }

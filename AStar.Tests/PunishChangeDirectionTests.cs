@@ -74,7 +74,7 @@ namespace AStar.Tests
                             111111";
 
             var world = Helper.ConvertStringToPathfinderGrid(level);
-            var pathfinder = new PathFinder(world, new PathFinderOptions { UseDiagonals = false, PunishChangeDirection = true, HeuristicFormula = HeuristicFormula.MaxDXDY });
+            var pathfinder = new PathFinder(world, new PathFinderOptions { UseDiagonals = false, PunishChangeDirection = true, HeuristicFormula = HeuristicFormula.MaxDxdy });
 
             var path = pathfinder.FindPath(new Position(4, 4), new Position(1, 1));
 

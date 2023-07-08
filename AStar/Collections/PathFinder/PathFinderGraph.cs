@@ -1,67 +1,63 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using AStar.Collections.MultiDimensional;
 using AStar.Collections.PriorityQueue;
+using AStar.Scaffolding;
 
-namespace AStar.Collections.PathFinder
+namespace AStar.Collections.PathFinder;
+
+internal class PathFinderGraph : IModelAGraph<PathFinderNode>
 {
-    internal class PathFinderGraph : IModelAGraph<PathFinderNode>
+    private readonly bool allowDiagonalTraversal;
+    private readonly AGrid<PathFinderNode> internalGrid;
+    private readonly SimplePriorityQueue<PathFinderNode> open = new(new ComparePathFinderNodeByFValue());
+
+    public PathFinderGraph(Size size, bool allowDiagonalTraversal)
     {
-        private readonly bool _allowDiagonalTraversal;
-        private readonly Grid<PathFinderNode> _internalGrid;
-        private readonly SimplePriorityQueue<PathFinderNode> _open = new SimplePriorityQueue<PathFinderNode>(new ComparePathFinderNodeByFValue());
+        this.allowDiagonalTraversal = allowDiagonalTraversal;
+        internalGrid = new AGrid<PathFinderNode>(size);
+        Initialise();
+    }
 
-        public bool HasOpenNodes
+    public bool HasOpenNodes => open.Count > 0;
+
+    public IEnumerable<PathFinderNode> GetSuccessors(PathFinderNode node)
+    {
+        return internalGrid
+            .GetSuccessorPositions(node.Position, allowDiagonalTraversal)
+            .Select(successorPosition => internalGrid[successorPosition]);
+    }
+
+    public PathFinderNode GetParent(PathFinderNode node)
+    {
+        return internalGrid[node.ParentNodePosition];
+    }
+
+    public void OpenNode(PathFinderNode node)
+    {
+        internalGrid[node.Position] = node;
+        open.Push(node);
+    }
+
+    public PathFinderNode GetOpenNodeWithSmallestF()
+    {
+        return open.Pop();
+    }
+
+    private void Initialise()
+    {
+        for (var row = 0; row < internalGrid.Height; row++)
         {
-            get
+            for (var column = 0; column < internalGrid.Width; column++)
             {
-                return _open.Count > 0;
+                internalGrid[row, column] = new PathFinderNode(new Position(row, column),
+                    0,
+                    0,
+                    default);
             }
         }
-        public PathFinderGraph(int height, int width, bool allowDiagonalTraversal)
-        {
-            _allowDiagonalTraversal = allowDiagonalTraversal;
-            _internalGrid = new Grid<PathFinderNode>(height, width);
-            Initialise();
-        }
 
-        private void Initialise()
-        {
-            for (var row = 0; row < _internalGrid.Height; row++)
-            {
-                for (var column = 0; column < _internalGrid.Width; column++)
-                {
-                    _internalGrid[row, column] = new PathFinderNode(position: new Position(row, column),
-                        g: 0,
-                        h: 0,
-                        parentNodePosition: default);
-                }
-            }
-            
-            _open.Clear();
-        }
-
-        public IEnumerable<PathFinderNode> GetSuccessors(PathFinderNode node)
-        {
-            return _internalGrid
-                .GetSuccessorPositions(node.Position, _allowDiagonalTraversal)
-                .Select(successorPosition => _internalGrid[successorPosition]);
-        }
-
-        public PathFinderNode GetParent(PathFinderNode node)
-        {
-            return _internalGrid[node.ParentNodePosition];
-        }
-
-        public void OpenNode(PathFinderNode node)
-        {
-            _internalGrid[node.Position] = node;
-            _open.Push(node);
-        }
-
-        public PathFinderNode GetOpenNodeWithSmallestF()
-        {
-            return _open.Pop();
-        }
+        open.Clear();
     }
 }
